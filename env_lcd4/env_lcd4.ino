@@ -1,7 +1,7 @@
 #include <LiquidCrystal.h>
 #include <Arduino_MKRENV.h>
 
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal lcd(0,1,2,3,4,5);
 
 float Tf = 0.0;
 float rH = 0.0;
@@ -60,12 +60,13 @@ void printReadings(float Tf, float rH, float Dewf, float P, float Light, float U
 }
 
 void displayReadings(float Tf, float rH, float Dewf, float P, float Light, float UVA, float UVB, float UVI) {
-  lcd.begin(16,2);
+  lcd.home();
 
   //Temperature
   lcd.setCursor(0,0); 
   lcd.print("Tf:");
   lcd.print(round(Tf));
+  lcd.print((char)223);
   lcd.print("F ");
   //Humidity
   lcd.setCursor(0,1);
@@ -77,6 +78,7 @@ void displayReadings(float Tf, float rH, float Dewf, float P, float Light, float
   lcd.setCursor(8,0); 
   lcd.print("dew:");
   lcd.print(round(Dewf));
+  lcd.print((char)223);
   lcd.print("F ");
   //Pressure
   lcd.setCursor(8,1);
@@ -84,7 +86,7 @@ void displayReadings(float Tf, float rH, float Dewf, float P, float Light, float
   lcd.print(round(P));
   lcd.print("kPa ");
     
-  delay(4000);
+  delay(5000);
   lcd.clear();
   
   //Light (Illuminance)
@@ -108,12 +110,11 @@ void displayReadings(float Tf, float rH, float Dewf, float P, float Light, float
   lcd.print("uvi:");
   lcd.print(round(UVI));
   
-  delay(4000);
+  delay(5000);
   lcd.clear();
 }
 
 void displayIntro(String line1,  String line2) {
-  lcd.begin(16, 2);
   lcd.setCursor(0,0); 
   lcd.print(line1);
   lcd.setCursor(0,1); 
@@ -121,7 +122,9 @@ void displayIntro(String line1,  String line2) {
 }
 
 void setup() {
-  displayIntro("line1 msg",  "line2 msg");
+  lcd.begin(16, 2);
+  
+  displayIntro("@diygrowdata",  "diygrowdata.com");
   
   Serial.begin(9600);
   while (!Serial);
